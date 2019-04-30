@@ -1,0 +1,8 @@
+<div class="card">
+  <div class="card-body">
+    <h5 class="card-title">{{ gateway.name}}</h5>
+    <p class="card-text">{{gateway.ipv4}}</p>
+    <a  routerLink="/edit-card/{{gateway.id}}" title="View card {{gateway.name}}" class="btn btn-primary"><i class="fas fa-eye"></i></a>
+    <!--<button class="btn btn-danger" title="Remove card" (click)="open(content)"><i class="fas fa-trash"></i></button>-->
+  </div>
+</div>
