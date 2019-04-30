@@ -1,2 +1,21 @@
 /* You can add global styles to this file, and also import other style files */
 @import "../node_modules/bootstrap/scss/bootstrap";
+
+.ng-invalid.ng-touched{
+  border-color: red;
+}
+
+.error{
+  color: red;
+}
+
+.form-group{
+  height: 93px;
+  margin-bottom: 0.25rem;
+}
+
+table{
+  td{
+    vertical-align: middle !important;
+  }
+}

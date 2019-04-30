@@ -4,20 +4,22 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { GatewaysComponent } from './components/gateways/gateways.component';
-import { DevicesComponent } from './components/devices/devices.component';
 import { AppRoutingModule } from './/app-routing.module';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { GatewayCardComponent } from './components/gateway-card/gateway-card.component';
 import {GatewaysService} from './services/gateways.service';
+import { FormDevComponent } from './components/form-dev/form-dev.component';
+import { FormGwComponent } from './components/form-gw/form-gw.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     GatewaysComponent,
-    DevicesComponent,
-    GatewayCardComponent
+    GatewayCardComponent,
+    FormDevComponent,
+    FormGwComponent
   ],
   imports: [
     BrowserModule,
