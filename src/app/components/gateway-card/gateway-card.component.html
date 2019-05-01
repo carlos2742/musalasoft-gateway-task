@@ -19,7 +19,7 @@
   <button class="btn btn-success ml-2" title="Add Device" (click)="openAdd(content)" *ngIf="gateway.devices.length < 10"><i class="fas fa-plus"></i></button>
 </div>
 <div class="text-center pb-5">
-  <div class="row mr-0 ml-0 w-100 overflow-auto">
+  <div *ngIf="gateway.devices.length > 0 ; else emptyBlock" class="row mr-0 ml-0 w-100 overflow-auto">
     <table class="table table-striped mt-4 font" >
       <thead>
       <tr>
@@ -43,6 +43,11 @@
       </tbody>
     </table>
   </div>
+  <ng-template #emptyBlock>
+    <ngb-alert [type]="'info'">
+      There are not Devices
+    </ngb-alert>
+  </ng-template>
 </div>
 
 <ng-template #content let-d="dismiss" let-c="close">

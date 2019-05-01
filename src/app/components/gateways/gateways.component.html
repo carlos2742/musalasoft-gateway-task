@@ -10,7 +10,7 @@
   </div>
 </div>
 <div class=" text-center pb-5">
-  <div class="row mr-0 ml-0 w-100 overflow-auto">
+  <div *ngIf="gateways.length > 0 ; else emptyBlock" class="row mr-0 ml-0 w-100 overflow-auto">
     <table class="table table-striped mt-4 font" >
       <thead>
       <tr>
@@ -33,6 +33,11 @@
       </tbody>
     </table>
   </div>
+  <ng-template #emptyBlock>
+    <ngb-alert [type]="'info'">
+      There are not Gateways
+    </ngb-alert>
+  </ng-template>
 </div>
 
 <ng-template #content let-d="dismiss" let-c="close">
