@@ -31,11 +31,13 @@ export class GatewaysService {
   }
 
   public addGateway(data) {
+    data['devices'] = [];
+    data['id'] = (this.gateways.length + 1).toString();
     this.gateways.push(data);
   }
 
-  public editGateway(data, id) {
-    const gw = this.gateways[id];
+  public editGateway( id, data) {
+    const gw = this.getGatewayById(id);
     gw.name = data.name;
     gw.ipv4 = data.ipv4;
   }
