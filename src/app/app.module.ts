@@ -11,6 +11,7 @@ import { GatewayCardComponent } from './components/gateway-card/gateway-card.com
 import {GatewaysService} from './services/gateways.service';
 import { FormDevComponent } from './components/form-dev/form-dev.component';
 import { FormGwComponent } from './components/form-gw/form-gw.component';
+import {DevicesService} from './services/devices.service';
 
 
 @NgModule({
@@ -28,7 +29,10 @@ import { FormGwComponent } from './components/form-gw/form-gw.component';
     AppRoutingModule,
     NgbModule.forRoot()
   ],
-  providers: [GatewaysService],
+  providers: [
+    GatewaysService,
+    DevicesService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

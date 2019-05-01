@@ -1,25 +1,11 @@
 import { Injectable } from '@angular/core';
-
+import {data} from '../data';
 @Injectable()
 export class GatewaysService {
 
   private gateways: Array<any>;
   constructor() {
-    this.gateways = [
-      {
-        id: '1',
-        name: 'Gateway 1',
-        ipv4: '10.0.0.1',
-        devices: [
-          {
-            uid: 1,
-            vendor: 'HP',
-            created: 'Tue Apr 29 2019 17:01:51',
-            status: 'offline'
-          }
-        ]
-      }
-    ];
+    this.gateways = data;
   }
 
   get list() {
@@ -30,33 +16,15 @@ export class GatewaysService {
     return this.gateways.find(item => item.id === id);
   }
 
-  public addGateway(data) {
-    data['devices'] = [];
-    data['id'] = (this.gateways.length + 1).toString();
-    this.gateways.push(data);
+  public addGateway(params) {
+    params['devices'] = [];
+    params['id'] = (this.gateways.length + 1).toString();
+    this.gateways.push(params);
   }
 
-  public editGateway( id, data) {
+  public editGateway( id, params) {
     const gw = this.getGatewayById(id);
-    gw.name = data.name;
-    gw.ipv4 = data.ipv4;
+    gw.name = params.name;
+    gw.ipv4 = params.ipv4;
   }
-
-  public getDeviceByUid(id, uid) {
-    const gw = this.getGatewayById(id);
-    return gw.devices.find(item => item.uid === uid);
-  }
-
-  public addDevice(id, data) {
-    const gw = this.getGatewayById(id);
-    data['uid'] = gw.devices.length + 1;
-    gw.devices.push(data);
-  }
-
-  public editDevice(id, uid, data) {
-    const dv = this.getDeviceByUid(id, uid);
-    dv.vendor = data.vendor;
-    dv.status = data.status;
-  }
-
 }

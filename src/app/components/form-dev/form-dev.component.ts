@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, Validators} from '@angular/forms';
-import {GatewaysService} from '../../services/gateways.service';
 import {ENTITIES, FORM_ACTIONS} from '../gateways/gateways.component';
+import {DevicesService} from '../../services/devices.service';
 
 export enum DEVICES_STATUS {
   ONLINE = 'online',
@@ -28,7 +28,7 @@ export class FormDevComponent implements OnInit {
   public customform;
   public device;
 
-  constructor(private _gatewayService: GatewaysService, private _formBuilder: FormBuilder) {
+  constructor(private _deviceService: DevicesService, private _formBuilder: FormBuilder) {
     this.device = null;
     this.FORM_ACTION_ENUM = FORM_ACTIONS;
   }
@@ -42,7 +42,7 @@ export class FormDevComponent implements OnInit {
     if (this.action === FORM_ACTIONS.EDIT) {
       const uid = this.params['uid'];
       this.title += ` ${uid}`;
-      this.device = this._gatewayService.getDeviceByUid(this.id, uid);
+      this.device = this._deviceService.getDeviceByUid(this.id, uid);
       statusValue = this.device.status;
       vendorValue = this.device.vendor;
     }
@@ -67,11 +67,11 @@ export class FormDevComponent implements OnInit {
     const data = this.customform.value;
 
     if (this.action === FORM_ACTIONS.EDIT) {
-      this._gatewayService.editDevice(this.id, this.params['uid'], data);
+      this._deviceService.editDevice(this.id, this.params['uid'], data);
       this.close({action: FORM_ACTIONS.EDIT, message: `Device: ${this.device.uid} was updated.`, status: 'success'});
     } else {
       data['created'] = new Date();
-      this._gatewayService.addDevice(this.id, data);
+      this._deviceService.addDevice(this.id, data);
       this.close({action: FORM_ACTIONS.ADD, message: 'Device was added successfully.', status: 'success'});
     }
   }

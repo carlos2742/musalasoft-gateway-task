@@ -17,6 +17,7 @@
         <th>Id</th>
         <th>Name</th>
         <th>Ipv4</th>
+        <th>Devices</th>
         <th></th>
       </tr>
       </thead>
@@ -25,6 +26,7 @@
         <td>{{gateway.id}}</td>
         <td>{{gateway.name}}</td>
         <td>{{gateway.ipv4}}</td>
+        <td>{{gateway.devices.length}}</td>
         <td>
           <a routerLink="/gateway/{{gateway.id}}" title="View {{gateway.name}}" class="btn btn-primary"><i class="fas fa-eye"></i></a>
           <button class="btn btn-primary ml-1" title="Edit {{gateway.name}}" (click)="openEdit(content,gateway.id)"><i class="fas fa-edit"></i></button>
@@ -34,7 +36,7 @@
     </table>
   </div>
   <ng-template #emptyBlock>
-    <ngb-alert [type]="'info'">
+    <ngb-alert [type]="'info'" [dismissible]="false">
       There are not Gateways
     </ngb-alert>
   </ng-template>
