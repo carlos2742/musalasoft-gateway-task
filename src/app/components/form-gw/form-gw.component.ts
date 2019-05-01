@@ -31,16 +31,19 @@ export class FormGwComponent implements OnInit {
   ngOnInit() {
     this.title = `${this.action} ${this.entity}`;
     this.id = this.params['id'];
+    let serialValue = '';
     let nameValue = '';
     let ipv4Value = '';
 
     if (this.action === FORM_ACTIONS.EDIT) {
       this.gateway = this._gatewayService.getGatewayById(this.id);
+      serialValue = this.gateway.serial;
       nameValue = this.gateway.name;
       ipv4Value = this.gateway.ipv4;
     }
 
     this.customform = this._formBuilder.group({
+      'serial': new FormControl(serialValue, [Validators.required]),
       'name': new FormControl(nameValue, [Validators.required]),
       'ipv4': new FormControl(ipv4Value, [Validators.required, Validators.pattern('^([0-9]{1,3}\\.){3}[0-9]{1,3}$')]),
     });
@@ -57,14 +60,27 @@ export class FormGwComponent implements OnInit {
     }
 
     const data = this.customform.value;
-
+    const response = {action: '', message: '', status: ''};
     if (this.action === FORM_ACTIONS.EDIT) {
-      this._gatewayService.edit(this.id, data);
-      this.modalRef.close({action: FORM_ACTIONS.EDIT, message: `Gateway was updated.`, status: 'success'});
+      response.action = FORM_ACTIONS.EDIT;
+      if (this._gatewayService.edit(this.id, data)) {
+        response.message = 'Gateway was updated.';
+        response.status = 'success';
+      } else {
+        response.message = 'Gateway serial must be unique.';
+        response.status = 'danger';
+      }
     } else {
-      this._gatewayService.add(data);
-      this.modalRef.close({action: FORM_ACTIONS.ADD, message: 'Gateway was added successfully.', status: 'success'});
+      response.action = FORM_ACTIONS.ADD;
+      if (this._gatewayService.add(data)) {
+        response.message = 'Gateway was added successfully.';
+        response.status = 'success';
+      } else {
+        response.message = 'Gateway serial must be unique.';
+        response.status = 'danger';
+      }
     }
+    this.modalRef.close(response);
   }
 
 }

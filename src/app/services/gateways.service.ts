@@ -12,19 +12,35 @@ export class GatewaysService {
     return this.gateways;
   }
 
+  private existSerial(serial) {
+    const exist = this.gateways.find( item => item.serial === serial) ? true : false;
+    return exist;
+  }
+
   public getGatewayById(id) {
-    return this.gateways.find(item => item.id === id);
+    return this.gateways.find(item => item.id === parseInt(id));
   }
 
   public add(params) {
-    params['devices'] = [];
-    params['id'] = (this.gateways.length + 1).toString();
-    this.gateways.push(params);
+    if (this.existSerial(params['serial'])) {
+      return false;
+    } else {
+      params['devices'] = [];
+      params['id'] = (this.gateways.length + 1);
+      this.gateways.push(params);
+      return true;
+    }
   }
 
   public edit( id, params) {
-    const gw = this.getGatewayById(id);
-    gw.name = params.name;
-    gw.ipv4 = params.ipv4;
+    if (this.existSerial(params['serial'])) {
+      return false;
+    } else {
+      const gw = this.getGatewayById(id);
+      gw.serial = params.serial;
+      gw.name = params.name;
+      gw.ipv4 = params.ipv4;
+      return true;
+    }
   }
 }

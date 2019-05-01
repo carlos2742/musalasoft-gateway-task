@@ -30,7 +30,7 @@ export class GatewayCardComponent implements OnInit {
               private _devicesServices: DevicesService) {
     this.gwId = _activated.snapshot.params['id'];
     this.gateway = _gatewayService.getGatewayById(this.gwId);
-    this.data = {id: this.gwId};
+    this.data = {gwId: this.gwId};
     this.showAlert = false;
     this.dvId = 0;
   }
@@ -39,14 +39,14 @@ export class GatewayCardComponent implements OnInit {
     this.entity = ENTITIES.DEVICE;
   }
 
-  openEdit(content, uid) {
-    this.data['uid'] = uid;
+  openEdit(content, dvId) {
+    this.data['dvId'] = dvId;
     this.action = FORM_ACTIONS.EDIT;
     this.open(content);
   }
 
-  openRemove(content, uid) {
-    this.dvId = uid;
+  openRemove(content, dvId) {
+    this.dvId = dvId;
     this.open(content);
   }
 

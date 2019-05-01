@@ -37,8 +37,8 @@
         <td>{{device.created | date: 'dd/MM/yyyy'}}</td>
         <td>{{device.status}}</td>
         <td>
-          <button class="btn btn-primary" title="Edit Device:{{device.uid}}" (click)="openEdit(content, device.uid)"><i class="fas fa-edit"></i></button>
-          <button class="btn btn-danger" title="Remove Device: {{device.uid}}" (click)="openRemove(content2, device.uid)"><i class="fas fa-trash"></i></button>
+          <button class="btn btn-primary" title="Edit Device:{{device.uid}}" (click)="openEdit(content, device.id)"><i class="fas fa-edit"></i></button>
+          <button class="btn btn-danger" title="Remove Device: {{device.uid}}" (click)="openRemove(content2, device.id)"><i class="fas fa-trash"></i></button>
         </td>
       </tr>
       </tbody>

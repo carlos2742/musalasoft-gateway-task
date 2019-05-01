@@ -22,7 +22,7 @@ export class FormDevComponent implements OnInit {
   @Input() modalRef: NgbModalRef;
 
   public title: String;
-  public id: String;
+  public gwId: String;
   public FORM_ACTION_ENUM;
 
   public customform;
@@ -35,19 +35,22 @@ export class FormDevComponent implements OnInit {
 
   ngOnInit() {
     this.title = `${this.action} ${this.entity}`;
-    this.id = this.params['id'];
+    this.gwId = this.params['gwId'];
     let statusValue = DEVICES_STATUS.ONLINE;
     let vendorValue = '';
+    let uidValue = '';
 
     if (this.action === FORM_ACTIONS.EDIT) {
-      const uid = this.params['uid'];
-      this.title += ` ${uid}`;
-      this.device = this._deviceService.getDeviceByUid(this.id, uid);
+      const dvId = this.params['dvId'];
+      this.device = this._deviceService.getDeviceByUid(this.gwId, dvId);
+      this.title += ` ${this.device.uid}`;
+      uidValue = this.device.uid;
       statusValue = this.device.status;
       vendorValue = this.device.vendor;
     }
 
     this.customform = this._formBuilder.group({
+      'uid': new FormControl(uidValue, [Validators.required]),
       'vendor': new FormControl(vendorValue, [Validators.required]),
       'status': new FormControl(statusValue),
     });
@@ -65,15 +68,16 @@ export class FormDevComponent implements OnInit {
     }
 
     const data = this.customform.value;
-
+    let response = {action: '', message: '', status: ''};
     if (this.action === FORM_ACTIONS.EDIT) {
-      this._deviceService.edit(this.id, this.params['uid'], data);
-      this.modalRef.close({action: FORM_ACTIONS.EDIT, message: `Device: ${this.device.uid} was updated.`, status: 'success'});
+      this._deviceService.edit(this.gwId, this.params['dvId'], data);
+      response = {action: FORM_ACTIONS.EDIT, message: `Device: ${this.device.uid} was updated.`, status: 'success'};
     } else {
       data['created'] = new Date();
-      this._deviceService.add(this.id, data);
-      this.modalRef.close({action: FORM_ACTIONS.ADD, message: 'Device was added successfully.', status: 'success'});
+      this._deviceService.add(this.gwId, data);
+      response = {action: FORM_ACTIONS.ADD, message: 'Device was added successfully.', status: 'success'};
     }
+    this.modalRef.close(response);
   }
 
 }

@@ -14,7 +14,7 @@
     <table class="table table-striped mt-4 font" >
       <thead>
       <tr>
-        <th>Id</th>
+        <th>Serial</th>
         <th>Name</th>
         <th>Ipv4</th>
         <th>Devices</th>
@@ -23,7 +23,7 @@
       </thead>
       <tbody>
       <tr *ngFor="let gateway of gateways ">
-        <td>{{gateway.id}}</td>
+        <td>{{gateway.serial}}</td>
         <td>{{gateway.name}}</td>
         <td>{{gateway.ipv4}}</td>
         <td>{{gateway.devices.length}}</td>

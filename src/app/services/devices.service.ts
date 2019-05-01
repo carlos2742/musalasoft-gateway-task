@@ -10,29 +10,30 @@ export class DevicesService {
   }
 
   private getGatewayById(id) {
-    return this.gateways.find(item => item.id === id);
+    return this.gateways.find(item => item.id === parseInt(id));
   }
 
-  public getDeviceByUid(id, uid) {
-    const gw = this.getGatewayById(id);
-    return gw.devices.find(item => item.uid === uid);
+  public getDeviceByUid(gwId, dvId) {
+    const gw = this.getGatewayById(gwId);
+    return gw.devices.find(item => item.id === parseInt(dvId));
   }
 
   public add(id, params) {
     const gw = this.getGatewayById(id);
-    params['uid'] = gw.devices.length + 1;
+    params['id'] = gw.devices.length + 1;
     gw.devices.push(params);
   }
 
-  public edit(id, uid, params) {
-    const dv = this.getDeviceByUid(id, uid);
+  public edit(gwId, dvId, params) {
+    const dv = this.getDeviceByUid(gwId, dvId);
     dv.vendor = params.vendor;
     dv.status = params.status;
+    dv.uid = params.uid;
   }
 
-  public remove(id, uid) {
-    const gw = this.getGatewayById(id);
-    const index = gw.devices.findIndex(item => item.uid === uid);
+  public remove(gwId, dvId) {
+    const gw = this.getGatewayById(gwId);
+    const index = gw.devices.findIndex(item => item.id === parseInt(dvId));
     gw.devices.splice(index, 1);
   }
 
