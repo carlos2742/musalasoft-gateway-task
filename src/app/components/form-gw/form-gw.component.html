@@ -1,7 +1,7 @@
 <form [formGroup]="customform">
   <div class="modal-header">
     <h4 class="modal-title" id="modal-basic-title">{{title}}</h4>
-    <button type="button" class="close" aria-label="Close" (click)="dismiss('Cross click')">
+    <button type="button" class="close" aria-label="Close" (click)="modalRef.dismiss('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
@@ -9,7 +9,7 @@
     <div class="pl-1 pr-1">
       <div class="form-group">
         <label for="nameInput">Name</label>
-        <input type="text" class="form-control" id="nameInput" aria-describedby="nameHelp" placeholder="Enter Name" formControlName="name">
+        <input type="text" class="form-control" id="nameInput" aria-describedby="nameHelp" placeholder="Name" formControlName="name">
         <div *ngIf="customform.controls.name.invalid && customform.controls.name.touched" class="pl-2">
           <div *ngIf="customform.controls.name.errors.required">
             <small id="nameHelp" class="form-text error">Required</small>
@@ -18,18 +18,21 @@
       </div>
       <div class="form-group">
         <label for="ipv4Input">Ipv4</label>
-        <input type="text" class="form-control" id="ipv4Input" aria-describedby="ipv4Help" placeholder="Enter Ipv4" formControlName="ipv4">
+        <input type="text" class="form-control" id="ipv4Input" aria-describedby="ipv4Help" placeholder="ex: 255.255.255.255" formControlName="ipv4">
         <div *ngIf="customform.controls.ipv4.invalid && customform.controls.ipv4.touched" class="pl-2">
-          <div *ngIf="customform.controls.ipv4.errors.required">
-            <small id="ipv4Help" class="form-text error">Required</small>
+          <div *ngIf="customform.controls.ipv4.errors.required; else patternBlock">
+            <small id="required" class="form-text error">Required</small>
           </div>
+          <ng-template #patternBlock>
+            <small id="pattern" class="form-text error">Wrong format for Ipv4</small>
+          </ng-template>
         </div>
       </div>
     </div>
   </div>
   <div class="modal-footer">
-    <button type="submit" class="btn btn-primary"  (click)="submit()">Submit</button>
-    <button type="button" class="btn btn-danger" (click)="close('Close click')">Close</button>
+    <button type="submit" class="btn btn-primary"  (click)="submit()">Add</button>
+    <button type="button" class="btn btn-danger" (click)="modalRef.close('Close click')">Close</button>
   </div>
 </form>
 

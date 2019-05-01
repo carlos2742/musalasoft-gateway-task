@@ -2,7 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {ENTITIES, FORM_ACTIONS} from '../gateways/gateways.component';
 import {GatewaysService} from '../../services/gateways.service';
 import {FormBuilder, FormControl, Validators} from '@angular/forms';
-import {DEVICES_STATUS} from '../form-dev/form-dev.component';
+import {NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-form-gw',
@@ -14,8 +14,7 @@ export class FormGwComponent implements OnInit {
   @Input() entity: ENTITIES;
   @Input() action: FORM_ACTIONS;
   @Input() params: any;
-  @Input() dismiss: any;
-  @Input() close: any;
+  @Input() modalRef: NgbModalRef;
 
   public title: String;
   public id: String;
@@ -43,7 +42,7 @@ export class FormGwComponent implements OnInit {
 
     this.customform = this._formBuilder.group({
       'name': new FormControl(nameValue, [Validators.required]),
-      'ipv4': new FormControl(ipv4Value, [Validators.required]),
+      'ipv4': new FormControl(ipv4Value, [Validators.required, Validators.pattern('^([0-9]{1,3}\\.){3}[0-9]{1,3}$')]),
     });
   }
 
@@ -60,11 +59,11 @@ export class FormGwComponent implements OnInit {
     const data = this.customform.value;
 
     if (this.action === FORM_ACTIONS.EDIT) {
-      this._gatewayService.editGateway(this.id, data);
-      this.close({action: FORM_ACTIONS.EDIT, message: `Gateway was updated.`, status: 'success'});
+      this._gatewayService.edit(this.id, data);
+      this.modalRef.close({action: FORM_ACTIONS.EDIT, message: `Gateway was updated.`, status: 'success'});
     } else {
-      this._gatewayService.addGateway(data);
-      this.close({action: FORM_ACTIONS.ADD, message: 'Gateway was added successfully.', status: 'success'});
+      this._gatewayService.add(data);
+      this.modalRef.close({action: FORM_ACTIONS.ADD, message: 'Gateway was added successfully.', status: 'success'});
     }
   }
 

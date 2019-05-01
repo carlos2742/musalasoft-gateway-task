@@ -1,7 +1,7 @@
 <form [formGroup]="customform">
   <div class="modal-header">
     <h4 class="modal-title" id="modal-basic-title">{{title}}</h4>
-    <button type="button" class="close" aria-label="Close" (click)="dismiss('Cross click')">
+    <button type="button" class="close" aria-label="Close" (click)="modalRef.dismiss('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
@@ -9,10 +9,10 @@
     <div class="pl-1 pr-1">
       <div class="form-group">
         <label for="vendorInput">Vendor</label>
-        <input type="text" class="form-control" id="vendorInput" aria-describedby="vendorHelp" placeholder="Enter Vendor" formControlName="vendor">
+        <input type="text" class="form-control" id="vendorInput" aria-describedby="vendorHelp" placeholder="Vendor" formControlName="vendor">
         <div *ngIf="customform.controls.vendor.invalid && customform.controls.vendor.touched" class="pl-2">
           <div *ngIf="customform.controls.vendor.errors.required">
-            <small id="vendorHelp" class="form-text error">Required.</small>
+            <small id="vendorHelp" class="form-text error">Required</small>
           </div>
         </div>
       </div>
@@ -36,8 +36,8 @@
     </div>
   </div>
   <div class="modal-footer">
-    <button type="submit" class="btn btn-primary" (click)="submit()">Submit</button>
-    <button type="button" class="btn btn-danger" (click)="close('Close click')">Close</button>
+    <button type="submit" class="btn btn-primary" (click)="submit()">Add</button>
+    <button type="button" class="btn btn-danger" (click)="modalRef.close('Close click')">Close</button>
   </div>
 </form>
 

@@ -12,6 +12,7 @@ import {GatewaysService} from './services/gateways.service';
 import { FormDevComponent } from './components/form-dev/form-dev.component';
 import { FormGwComponent } from './components/form-gw/form-gw.component';
 import {DevicesService} from './services/devices.service';
+import { NotFoundComponent } from './components/not-found/not-found.component';
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import {DevicesService} from './services/devices.service';
     GatewaysComponent,
     GatewayCardComponent,
     FormDevComponent,
-    FormGwComponent
+    FormGwComponent,
+    NotFoundComponent
   ],
   imports: [
     BrowserModule,

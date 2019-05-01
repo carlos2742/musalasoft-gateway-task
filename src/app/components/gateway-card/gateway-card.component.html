@@ -37,19 +37,39 @@
         <td>{{device.created | date: 'dd/MM/yyyy'}}</td>
         <td>{{device.status}}</td>
         <td>
-          <button class="btn btn-primary ml-1" title="Edit {{device.uid}}" (click)="openEdit(content, device.uid)"><i class="fas fa-edit"></i></button>
+          <button class="btn btn-primary" title="Edit Device:{{device.uid}}" (click)="openEdit(content, device.uid)"><i class="fas fa-edit"></i></button>
+          <button class="btn btn-danger" title="Remove Device: {{device.uid}}" (click)="openRemove(content2, device.uid)"><i class="fas fa-trash"></i></button>
         </td>
       </tr>
       </tbody>
     </table>
   </div>
   <ng-template #emptyBlock>
-    <ngb-alert [type]="'info'" [dismissible]="false">
-      There are not Devices
-    </ngb-alert>
+    <hr/>
+    <h5 class="text-uppercase">
+      There are not devices
+    </h5>
   </ng-template>
 </div>
 
-<ng-template #content let-d="dismiss" let-c="close">
-  <app-form-dev [entity]="entity" [action]="action" [close]="c" [dismiss]="d" [params]="data"></app-form-dev>
+<ng-template #content>
+  <app-form-dev [entity]="entity" [action]="action" [modalRef]="modalRef" [params]="data"></app-form-dev>
+</ng-template>
+
+<ng-template #content2 let-r>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Remove Device</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modalRef.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="pl-1 pr-1">
+      Are you sure you want to delete <strong>Device: {{deviceToDelete}}</strong> ?
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="submit" class="btn btn-primary" (click)="removeDevice()">Accept</button>
+    <button type="button" class="btn btn-danger" (click)="modalRef.close('Close Click')">Close</button>
+  </div>
 </ng-template>

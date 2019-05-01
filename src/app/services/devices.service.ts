@@ -18,16 +18,22 @@ export class DevicesService {
     return gw.devices.find(item => item.uid === uid);
   }
 
-  public addDevice(id, params) {
+  public add(id, params) {
     const gw = this.getGatewayById(id);
     params['uid'] = gw.devices.length + 1;
     gw.devices.push(params);
   }
 
-  public editDevice(id, uid, params) {
+  public edit(id, uid, params) {
     const dv = this.getDeviceByUid(id, uid);
     dv.vendor = params.vendor;
     dv.status = params.status;
+  }
+
+  public remove(id, uid) {
+    const gw = this.getGatewayById(id);
+    const index = gw.devices.findIndex(item => item.uid === uid);
+    gw.devices.splice(index, 1);
   }
 
 }

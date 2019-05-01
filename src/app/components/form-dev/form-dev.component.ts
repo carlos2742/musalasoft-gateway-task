@@ -2,6 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, Validators} from '@angular/forms';
 import {ENTITIES, FORM_ACTIONS} from '../gateways/gateways.component';
 import {DevicesService} from '../../services/devices.service';
+import {NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
 
 export enum DEVICES_STATUS {
   ONLINE = 'online',
@@ -18,8 +19,7 @@ export class FormDevComponent implements OnInit {
   @Input() entity: ENTITIES;
   @Input() action: FORM_ACTIONS;
   @Input() params: any;
-  @Input() dismiss: any;
-  @Input() close: any;
+  @Input() modalRef: NgbModalRef;
 
   public title: String;
   public id: String;
@@ -67,12 +67,12 @@ export class FormDevComponent implements OnInit {
     const data = this.customform.value;
 
     if (this.action === FORM_ACTIONS.EDIT) {
-      this._deviceService.editDevice(this.id, this.params['uid'], data);
-      this.close({action: FORM_ACTIONS.EDIT, message: `Device: ${this.device.uid} was updated.`, status: 'success'});
+      this._deviceService.edit(this.id, this.params['uid'], data);
+      this.modalRef.close({action: FORM_ACTIONS.EDIT, message: `Device: ${this.device.uid} was updated.`, status: 'success'});
     } else {
       data['created'] = new Date();
-      this._deviceService.addDevice(this.id, data);
-      this.close({action: FORM_ACTIONS.ADD, message: 'Device was added successfully.', status: 'success'});
+      this._deviceService.add(this.id, data);
+      this.modalRef.close({action: FORM_ACTIONS.ADD, message: 'Device was added successfully.', status: 'success'});
     }
   }
 

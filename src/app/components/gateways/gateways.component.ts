@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import {GatewaysService} from '../../services/gateways.service';
-import {NgbModal, NgbModalOptions} from '@ng-bootstrap/ng-bootstrap';
+import {NgbModal, NgbModalOptions, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
 
 export enum FORM_ACTIONS {
   ADD = 'Add',
-  EDIT = 'Edit'
+  EDIT = 'Edit',
+  REMOVE = 'Remove',
 }
 
 export enum ENTITIES {
@@ -27,6 +28,8 @@ export class GatewaysComponent implements OnInit {
   public showAlert: boolean;
   public alertStatus: String;
   public alertMessage: String;
+
+  public modalRef: NgbModalRef;
 
   constructor(private _gatewayService: GatewaysService, private modalService: NgbModal) {
     this.gateways = _gatewayService.list;
@@ -51,7 +54,8 @@ export class GatewaysComponent implements OnInit {
 
   private open(content) {
     const options: NgbModalOptions = {ariaLabelledBy: 'modal-basic-title'} as NgbModalOptions;
-    this.modalService.open(content, options).result.then((result) => {
+    this.modalRef = this.modalService.open(content, options);
+    this.modalRef.result.then((result) => {
       if (result['action'] === FORM_ACTIONS.ADD || result['action'] === FORM_ACTIONS.EDIT) {
         this.alertMessage = result['message'];
         this.alertStatus = result['status'];

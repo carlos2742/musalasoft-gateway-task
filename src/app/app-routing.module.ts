@@ -3,8 +3,10 @@ import { CommonModule } from '@angular/common';
 import {RouterModule, Routes} from '@angular/router';
 import {GatewaysComponent} from './components/gateways/gateways.component';
 import {GatewayCardComponent} from './components/gateway-card/gateway-card.component';
+import {NotFoundComponent} from './components/not-found/not-found.component';
 
 const routes: Routes = [
+  { path: '', redirectTo: 'gateways', pathMatch: 'full' },
   {
     path: 'gateways',
     component: GatewaysComponent,
@@ -13,7 +15,10 @@ const routes: Routes = [
     path: 'gateway/:id',
     component: GatewayCardComponent,
   },
-  { path: '', redirectTo: 'gateways', pathMatch: 'full' }
+  {
+    path: '**',
+    component: NotFoundComponent
+  }
 ];
 
 @NgModule({
