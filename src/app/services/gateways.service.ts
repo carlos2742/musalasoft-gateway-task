@@ -1,46 +1,30 @@
 import { Injectable } from '@angular/core';
 import {data} from '../data';
+import {environment} from '../../environments/environment';
+import {HttpClient} from '@angular/common/http';
 @Injectable()
 export class GatewaysService {
 
-  private gateways: Array<any>;
-  constructor() {
-    this.gateways = data;
+  private url: string;
+  constructor(private http: HttpClient) {
+    this.url = `${environment.apiUrl}/gateways`;
   }
 
   get list() {
-    return this.gateways;
+    return this.http.get(this.url);
   }
 
-  private existSerial(serial) {
-    const exist = this.gateways.find( item => item.serial === serial) ? true : false;
-    return exist;
-  }
-
-  public getGatewayById(id) {
-    return this.gateways.find(item => item.id === parseInt(id));
+  public gatewayById(id) {
+    const paramUrl = `${this.url}/${id}`;
+    return this.http.get(paramUrl);
   }
 
   public add(params) {
-    if (this.existSerial(params['serial'])) {
-      return false;
-    } else {
-      params['devices'] = [];
-      params['id'] = (this.gateways.length + 1);
-      this.gateways.push(params);
-      return true;
-    }
+    return this.http.post(this.url, params);
   }
 
-  public edit( id, params) {
-    if (this.existSerial(params['serial'])) {
-      return false;
-    } else {
-      const gw = this.getGatewayById(id);
-      gw.serial = params.serial;
-      gw.name = params.name;
-      gw.ipv4 = params.ipv4;
-      return true;
-    }
+  public edit(id, params) {
+    const paramUrl = `${this.url}/${id}`;
+    return this.http.put(paramUrl, params);
   }
 }

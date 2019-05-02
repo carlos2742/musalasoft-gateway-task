@@ -29,7 +29,14 @@ export class GatewayCardComponent implements OnInit {
   constructor(private _gatewayService: GatewaysService, private _activated: ActivatedRoute, private _modalService: NgbModal,
               private _devicesServices: DevicesService) {
     this.gwId = _activated.snapshot.params['id'];
-    this.gateway = _gatewayService.getGatewayById(this.gwId);
+    _gatewayService.gatewayById(this.gwId).subscribe(
+      response => {
+        this.gateway = response['result'];
+      },
+      error => {
+        console.log(error);
+      }
+    );
     this.data = {gwId: this.gwId};
     this.showAlert = false;
     this.dvId = 0;

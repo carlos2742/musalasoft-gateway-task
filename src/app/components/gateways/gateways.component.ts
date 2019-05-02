@@ -25,31 +25,41 @@ export class GatewaysComponent implements OnInit {
   public entity: ENTITIES;
   public data;
 
-  public showAlert: boolean;
-  public alertStatus: String;
-  public alertMessage: String;
+  public alert: any;
 
   public modalRef: NgbModalRef;
 
-  constructor(private _gatewayService: GatewaysService, private modalService: NgbModal) {
-    this.gateways = _gatewayService.list;
+  constructor(private _gateway: GatewaysService, private modalService: NgbModal) {
+    this.getList();
     this.data = {};
-    this.showAlert = false;
+    this.alert = {
+      show: false,
+      status: '',
+      message: ''
+    };
   }
 
   ngOnInit() {
     this.entity = ENTITIES.GATEWAY;
   }
 
-  openEdit(content, id) {
+  public openEdit(content, id) {
     this.data['id'] = id;
     this.action = FORM_ACTIONS.EDIT;
     this.open(content);
   }
 
-  openAdd(content) {
+  public openAdd(content) {
     this.action = FORM_ACTIONS.ADD;
     this.open(content);
+  }
+
+  private getList() {
+    this._gateway.list.subscribe(
+      response => {
+        this.gateways = response['result'];
+      },
+      error => console.log(error));
   }
 
   private open(content) {
@@ -57,16 +67,23 @@ export class GatewaysComponent implements OnInit {
     this.modalRef = this.modalService.open(content, options);
     this.modalRef.result.then((result) => {
       if (result['action'] === FORM_ACTIONS.ADD || result['action'] === FORM_ACTIONS.EDIT) {
-        this.alertMessage = result['message'];
-        this.alertStatus = result['status'];
-        this.showAlert = true;
+        this.alert.message = result['message'];
+        this.alert.status = result['status'];
+        this.alert.show = true;
+        if (result['status'] === 'success') {
+          this.getList();
+        }
       }
     }, (reason) => {
     });
   }
 
   closeAlert() {
-    this.showAlert = false;
+    this.alert = {
+      show: false,
+      status: '',
+      message: ''
+    };
   }
 
 }

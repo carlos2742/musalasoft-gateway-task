@@ -21,35 +21,31 @@ export class FormGwComponent implements OnInit {
   public FORM_ACTION_ENUM;
 
   public customform;
-  public gateway;
 
-  constructor(private _gatewayService: GatewaysService, private _formBuilder: FormBuilder) {
-    this.gateway = null;
+  constructor(private _gateway: GatewaysService, private _formBuilder: FormBuilder) {
     this.FORM_ACTION_ENUM = FORM_ACTIONS;
   }
 
   ngOnInit() {
     this.title = `${this.action} ${this.entity}`;
     this.id = this.params['id'];
-    let serialValue = '';
-    let nameValue = '';
-    let ipv4Value = '';
 
     if (this.action === FORM_ACTIONS.EDIT) {
-      this.gateway = this._gatewayService.getGatewayById(this.id);
-      serialValue = this.gateway.serial;
-      nameValue = this.gateway.name;
-      ipv4Value = this.gateway.ipv4;
+      this._gateway.gatewayById(this.id).subscribe(
+        response => {
+          const gateway = response['result'];
+          this.createForm(gateway.serial, gateway.name, gateway.ipv4);
+        },
+        error => {
+          console.log(error);
+        }
+      );
+    } else {
+      this.createForm();
     }
-
-    this.customform = this._formBuilder.group({
-      'serial': new FormControl(serialValue, [Validators.required]),
-      'name': new FormControl(nameValue, [Validators.required]),
-      'ipv4': new FormControl(ipv4Value, [Validators.required, Validators.pattern('^([0-9]{1,3}\\.){3}[0-9]{1,3}$')]),
-    });
   }
 
-  submit() {
+  public submit() {
     if (this.customform.invalid) {
       Object.keys(this.customform.controls).forEach(
         field => {
@@ -60,27 +56,46 @@ export class FormGwComponent implements OnInit {
     }
 
     const data = this.customform.value;
-    const response = {action: '', message: '', status: ''};
     if (this.action === FORM_ACTIONS.EDIT) {
-      response.action = FORM_ACTIONS.EDIT;
-      if (this._gatewayService.edit(this.id, data)) {
-        response.message = 'Gateway was updated.';
-        response.status = 'success';
-      } else {
-        response.message = 'Gateway serial must be unique.';
-        response.status = 'danger';
-      }
+      this.editGateway(this.id, data);
     } else {
-      response.action = FORM_ACTIONS.ADD;
-      if (this._gatewayService.add(data)) {
-        response.message = 'Gateway was added successfully.';
-        response.status = 'success';
-      } else {
-        response.message = 'Gateway serial must be unique.';
-        response.status = 'danger';
-      }
+      this.addGateway(data);
     }
-    this.modalRef.close(response);
+  }
+
+  private createForm(serial = '', name = '', ipv4 = '') {
+    this.customform = this._formBuilder.group({
+      'serial': new FormControl(serial, [Validators.required]),
+      'name': new FormControl(name, [Validators.required]),
+      'ipv4': new FormControl(ipv4, [Validators.required, Validators.pattern('^([0-9]{1,3}\\.){3}[0-9]{1,3}$')]),
+    });
+  }
+  private editGateway(id, data) {
+    this._gateway.edit(id, data).subscribe(
+      response => {
+        const message = response['status'] === 'success' ? 'Gateway was updated.' : response['message'];
+        this.closeModal(FORM_ACTIONS.EDIT, response['status'], message);
+      },
+      error => {
+        this.closeModal(FORM_ACTIONS.EDIT, error['status'], error['message']);
+      }
+    );
+  }
+
+  private addGateway(data) {
+    this._gateway.add(data).subscribe(
+      response => {
+        const message = response['status'] === 'success' ? 'Gateway was added successfully.' : response['message'];
+        this.closeModal(FORM_ACTIONS.ADD, response['status'], message);
+      },
+      error => {
+        this.closeModal(FORM_ACTIONS.ADD, error['status'], error['message']);
+      }
+    );
+  }
+
+  private closeModal(action, status, message) {
+    this.modalRef.close({action: action, status: status, message: message});
   }
 
 }

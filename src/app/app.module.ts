@@ -13,6 +13,7 @@ import { FormDevComponent } from './components/form-dev/form-dev.component';
 import { FormGwComponent } from './components/form-gw/form-gw.component';
 import {DevicesService} from './services/devices.service';
 import { NotFoundComponent } from './components/not-found/not-found.component';
+import {HttpClientModule} from '@angular/common/http';
 
 
 @NgModule({
@@ -29,6 +30,7 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
     ReactiveFormsModule,
     FormsModule,
     AppRoutingModule,
+    HttpClientModule,
     NgbModule.forRoot()
   ],
   providers: [
