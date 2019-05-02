@@ -6,6 +6,7 @@
     "ng": "ng",
     "start": "ng serve --host 0.0.0.0 -env=dev",
     "build": "ng build --prod",
+    "publish": "firebase deploy --token '1/vrbhmLPb0K2WqzH51HVQ3Qv6VFMA5kOL0jrCblpHcqTvUzHK5gby6rwEaeHBwj-T'",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
