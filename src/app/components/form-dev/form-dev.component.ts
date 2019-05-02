@@ -3,6 +3,7 @@ import {FormBuilder, FormControl, Validators} from '@angular/forms';
 import {ENTITIES, FORM_ACTIONS} from '../gateways/gateways.component';
 import {DevicesService} from '../../services/devices.service';
 import {NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
+import {GatewaysService} from '../../services/gateways.service';
 
 export enum DEVICES_STATUS {
   ONLINE = 'online',
@@ -28,7 +29,7 @@ export class FormDevComponent implements OnInit {
   public customform;
   public device;
 
-  constructor(private _deviceService: DevicesService, private _formBuilder: FormBuilder) {
+  constructor(private _device: DevicesService, private _gateway: GatewaysService, private _formBuilder: FormBuilder) {
     this.device = null;
     this.FORM_ACTION_ENUM = FORM_ACTIONS;
   }
@@ -36,28 +37,24 @@ export class FormDevComponent implements OnInit {
   ngOnInit() {
     this.title = `${this.action} ${this.entity}`;
     this.gwId = this.params['gwId'];
-    let statusValue = DEVICES_STATUS.ONLINE;
-    let vendorValue = '';
-    let uidValue = '';
 
     if (this.action === FORM_ACTIONS.EDIT) {
       const dvId = this.params['dvId'];
-      this.device = this._deviceService.getDeviceByUid(this.gwId, dvId);
-      this.title += ` ${this.device.uid}`;
-      uidValue = this.device.uid;
-      statusValue = this.device.status;
-      vendorValue = this.device.vendor;
+      this.device = this._device.deviceById(dvId).subscribe(
+        response => {
+          this.device = response['result'];
+          this.title += ` ${this.device.uid}`;
+          this.createForm(this.device.uid, this.device.vendor, this.device.status);
+        },
+        error => console.log(error)
+      );
+    } else {
+      this.createForm();
     }
-
-    this.customform = this._formBuilder.group({
-      'uid': new FormControl(uidValue, [Validators.required]),
-      'vendor': new FormControl(vendorValue, [Validators.required]),
-      'status': new FormControl(statusValue),
-    });
 
   }
 
-  submit() {
+  public submit() {
     if (this.customform.invalid) {
       Object.keys(this.customform.controls).forEach(
         field => {
@@ -68,16 +65,48 @@ export class FormDevComponent implements OnInit {
     }
 
     const data = this.customform.value;
-    let response = {action: '', message: '', status: ''};
     if (this.action === FORM_ACTIONS.EDIT) {
-      this._deviceService.edit(this.gwId, this.params['dvId'], data);
-      response = {action: FORM_ACTIONS.EDIT, message: `Device: ${this.device.uid} was updated.`, status: 'success'};
+      this.editDevice(this.device['_id'], data);
     } else {
       data['created'] = new Date();
-      this._deviceService.add(this.gwId, data);
-      response = {action: FORM_ACTIONS.ADD, message: 'Device was added successfully.', status: 'success'};
+      this.addDevice(this.gwId, data);
     }
-    this.modalRef.close(response);
+  }
+
+  private createForm(uid = '', vendor = '', status = DEVICES_STATUS.ONLINE) {
+    this.customform = this._formBuilder.group({
+      'uid': new FormControl(uid, [Validators.required]),
+      'vendor': new FormControl(vendor, [Validators.required]),
+      'status': new FormControl(status),
+    });
+  }
+
+  private editDevice(id, data) {
+    this._device.edit(id, data).subscribe(
+      response => {
+        const message = response['status'] === 'success' ? `Device was updated.` : response['message'];
+        this.closeModal(FORM_ACTIONS.EDIT, response['status'], message);
+      },
+      error => {
+        this.closeModal(FORM_ACTIONS.EDIT, error['status'], error['message']);
+      }
+    );
+  }
+
+  private addDevice(gatewayId, data) {
+    this._gateway.addDevice(gatewayId, data).subscribe(
+      response => {
+        const message = response['status'] === 'success' ? 'Device was added successfully.' : response['message'];
+        this.closeModal(FORM_ACTIONS.ADD, response['status'], message);
+      },
+      error => {
+        this.closeModal(FORM_ACTIONS.ADD, error['status'], error['message']);
+      }
+    );
+  }
+
+  private closeModal(action, status, message) {
+    this.modalRef.close({action: action, status: status, message: message});
   }
 
 }

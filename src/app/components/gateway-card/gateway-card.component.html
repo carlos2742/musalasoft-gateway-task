@@ -1,6 +1,6 @@
 <div class="text-center mb-2 mt-3">
-  <ngb-alert [type]="alertStatus" *ngIf="showAlert" (close)="closeAlert()">
-    {{alertMessage}}
+  <ngb-alert [type]="alert.status" *ngIf="alert.show" (close)="closeAlert()">
+    {{alert.message}}
   </ngb-alert>
   <div class="d-flex justify-content-between align-items-center">
     <a class="btn btn-secondary" title="Gateway List" routerLink="/gateways"><i class="fas fa-chevron-left"></i></a>
@@ -16,10 +16,10 @@
   <h5 class="mb-0">
     Devices
   </h5>
-  <button class="btn btn-success ml-2" title="Add Device" (click)="openAdd(content)" *ngIf="gateway.devices.length < 10"><i class="fas fa-plus"></i></button>
+  <button class="btn btn-success ml-2" title="Add Device" (click)="openAdd(content)" *ngIf="devices.length < 10"><i class="fas fa-plus"></i></button>
 </div>
 <div class="text-center pb-5">
-  <div *ngIf="gateway.devices.length > 0 ; else emptyBlock" class="row mr-0 ml-0 w-100 overflow-auto">
+  <div *ngIf="devices && devices.length > 0 ; else emptyBlock" class="row mr-0 ml-0 w-100 overflow-auto">
     <table class="table table-striped mt-4 font" >
       <thead>
       <tr>
@@ -31,14 +31,14 @@
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let device of gateway.devices">
+      <tr *ngFor="let device of devices">
         <td>{{device.uid}}</td>
         <td>{{device.vendor}}</td>
         <td>{{device.created | date: 'dd/MM/yyyy'}}</td>
         <td>{{device.status}}</td>
         <td>
-          <button class="btn btn-primary" title="Edit Device:{{device.uid}}" (click)="openEdit(content, device.id)"><i class="fas fa-edit"></i></button>
-          <button class="btn btn-danger" title="Remove Device: {{device.uid}}" (click)="openRemove(content2, device.id)"><i class="fas fa-trash"></i></button>
+          <button class="btn btn-primary" title="Edit Device:{{device.uid}}" (click)="openEdit(content, device._id)"><i class="fas fa-edit"></i></button>
+          <button class="btn btn-danger" title="Remove Device: {{device.uid}}" (click)="openRemove(content2, device._id)"><i class="fas fa-trash"></i></button>
         </td>
       </tr>
       </tbody>
@@ -65,7 +65,7 @@
   </div>
   <div class="modal-body">
     <div class="pl-1 pr-1">
-      Are you sure you want to delete <strong>Device: {{deviceToDelete}}</strong> ?
+      Are you sure you want to delete the device ?
     </div>
   </div>
   <div class="modal-footer">

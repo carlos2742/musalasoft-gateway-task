@@ -43,6 +43,14 @@ export class GatewaysComponent implements OnInit {
     this.entity = ENTITIES.GATEWAY;
   }
 
+  public closeAlert() {
+    this.alert = {
+      show: false,
+      status: '',
+      message: ''
+    };
+  }
+
   public openEdit(content, id) {
     this.data['id'] = id;
     this.action = FORM_ACTIONS.EDIT;
@@ -77,13 +85,4 @@ export class GatewaysComponent implements OnInit {
     }, (reason) => {
     });
   }
-
-  closeAlert() {
-    this.alert = {
-      show: false,
-      status: '',
-      message: ''
-    };
-  }
-
 }

@@ -1,40 +1,28 @@
 import { Injectable } from '@angular/core';
-import {data} from '../data';
+import {environment} from '../../environments/environment';
+import {HttpClient} from '@angular/common/http';
 
 @Injectable()
 export class DevicesService {
 
-  private gateways: Array<any>;
-  constructor() {
-    this.gateways = data;
+  private url: string;
+  constructor(private http: HttpClient) {
+    this.url = `${environment.apiUrl}/devices`;
   }
 
-  private getGatewayById(id) {
-    return this.gateways.find(item => item.id === parseInt(id));
+  public deviceById(deviceId) {
+    const urlParam = `${this.url}/${deviceId}`;
+    return this.http.get(urlParam);
   }
 
-  public getDeviceByUid(gwId, dvId) {
-    const gw = this.getGatewayById(gwId);
-    return gw.devices.find(item => item.id === parseInt(dvId));
+  public edit(deviceId, data) {
+    const urlParam = `${this.url}/${deviceId}`;
+    return this.http.put(urlParam, data);
   }
 
-  public add(id, params) {
-    const gw = this.getGatewayById(id);
-    params['id'] = gw.devices.length + 1;
-    gw.devices.push(params);
-  }
-
-  public edit(gwId, dvId, params) {
-    const dv = this.getDeviceByUid(gwId, dvId);
-    dv.vendor = params.vendor;
-    dv.status = params.status;
-    dv.uid = params.uid;
-  }
-
-  public remove(gwId, dvId) {
-    const gw = this.getGatewayById(gwId);
-    const index = gw.devices.findIndex(item => item.id === parseInt(dvId));
-    gw.devices.splice(index, 1);
+  public remove(deviceId) {
+    const urlParam = `${this.url}/${deviceId}`;
+    return this.http.delete(urlParam);
   }
 
 }

@@ -70,6 +70,7 @@ export class FormGwComponent implements OnInit {
       'ipv4': new FormControl(ipv4, [Validators.required, Validators.pattern('^([0-9]{1,3}\\.){3}[0-9]{1,3}$')]),
     });
   }
+
   private editGateway(id, data) {
     this._gateway.edit(id, data).subscribe(
       response => {

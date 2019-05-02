@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import {data} from '../data';
 import {environment} from '../../environments/environment';
 import {HttpClient} from '@angular/common/http';
 @Injectable()
@@ -14,17 +13,27 @@ export class GatewaysService {
     return this.http.get(this.url);
   }
 
-  public gatewayById(id) {
-    const paramUrl = `${this.url}/${id}`;
-    return this.http.get(paramUrl);
+  public gatewayById(gatewayId) {
+    const urlParam = `${this.url}/${gatewayId}`;
+    return this.http.get(urlParam);
   }
 
-  public add(params) {
-    return this.http.post(this.url, params);
+  public add(data) {
+    return this.http.post(this.url, data);
   }
 
-  public edit(id, params) {
-    const paramUrl = `${this.url}/${id}`;
-    return this.http.put(paramUrl, params);
+  public edit(gatewayId, data) {
+    const urlParam = `${this.url}/${gatewayId}`;
+    return this.http.put(urlParam, data);
+  }
+
+  public deviceList(gatewayId) {
+    const urlParam = `${this.url}/${gatewayId}/devices`;
+    return this.http.get(urlParam);
+  }
+
+  public addDevice(gatewayId, data) {
+    const urlParam = `${this.url}/${gatewayId}/device`;
+    return this.http.post(urlParam, data);
   }
 }
