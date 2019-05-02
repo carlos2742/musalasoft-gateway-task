@@ -75,7 +75,7 @@ export class FormDevComponent implements OnInit {
 
   private createForm(uid = '', vendor = '', status = DEVICES_STATUS.ONLINE) {
     this.customform = this._formBuilder.group({
-      'uid': new FormControl(uid, [Validators.required]),
+      'uid': new FormControl(uid, [Validators.required, Validators.pattern('(?<=\\s|^)\\d+(?=\\s|$)')]),
       'vendor': new FormControl(vendor, [Validators.required]),
       'status': new FormControl(status),
     });
