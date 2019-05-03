@@ -6,7 +6,6 @@
     "ng": "ng",
     "start": "ng serve --host 0.0.0.0 -env=dev",
     "build": "ng build --prod",
-    "publish": "firebase deploy --token '1/vrbhmLPb0K2WqzH51HVQ3Qv6VFMA5kOL0jrCblpHcqTvUzHK5gby6rwEaeHBwj-T'",
     "test": "ng test -sm=false",
     "lint": "ng lint",
     "e2e": "ng e2e"
@@ -37,7 +36,6 @@
     "@types/jasminewd2": "~2.0.2",
     "@types/node": "~6.0.60",
     "codelyzer": "^4.0.1",
-    "firebase-tools": "^6.7.2",
     "jasmine-core": "~2.8.0",
     "jasmine-spec-reporter": "~4.2.1",
     "karma": "~2.0.0",
