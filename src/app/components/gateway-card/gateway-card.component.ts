@@ -24,7 +24,7 @@ export class GatewayCardComponent implements OnInit {
   public dvId: number;
   public modalRef: NgbModalRef;
 
-  private gwId: String;
+  public gwId: String;
 
   constructor(private _gateway: GatewaysService, private _activated: ActivatedRoute, private _modalService: NgbModal,
               private _device: DevicesService) {
