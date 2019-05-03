@@ -2,16 +2,16 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.7.4.
 
-## Initialize de app
+## Initialize the app
 
-- To initialize clone or download the app.
+- To start clone or download the app.
 - Run `npm install`.
 
 ## Development server
 
 Run `npm start` for a dev server. Navigate to `http://localhost:4200/`.
 
-## Build
+## Production Build
 
 Run `npm run build` to build the project. The build artifacts will be stored in the `dist/` directory.
 
