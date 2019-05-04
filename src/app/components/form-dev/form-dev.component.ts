@@ -40,7 +40,7 @@ export class FormDevComponent implements OnInit {
 
     if (this.action === FORM_ACTIONS.EDIT) {
       const dvId = this.params['dvId'];
-      this.device = this._device.deviceById(dvId).subscribe(
+      this._device.deviceById(dvId).subscribe(
         response => {
           this.device = response['result'];
           this.title += ` ${this.device.uid}`;
