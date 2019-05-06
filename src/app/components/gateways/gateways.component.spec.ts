@@ -6,8 +6,8 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {FormGwComponent} from '../form-gw/form-gw.component';
 import {Component, Input} from '@angular/core';
 import {FormGroup} from '@angular/forms';
-import {RouterModule} from '@angular/router';
 import {GatewaysService} from '../../services/gateways.service';
+import {RouterTestingModule} from '@angular/router/testing';
 
 @Component({selector: 'form', template: ''})
 class FormStubComponent {
@@ -21,7 +21,7 @@ describe('GatewaysComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ GatewaysComponent, FormGwComponent, FormStubComponent],
-      imports: [RouterModule, NgbModule.forRoot(), HttpClientTestingModule],
+      imports: [RouterTestingModule, NgbModule.forRoot(), HttpClientTestingModule],
       providers: [GatewaysService]
     })
     .compileComponents();
