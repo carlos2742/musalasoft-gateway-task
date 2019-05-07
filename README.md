@@ -28,8 +28,8 @@ export const environment = {
   apiUrl: 'http://localhost:4000'
 };
 ```
-# In Memory
+## In Memory
 The branch **in-memory** was modified to use data in memory instead of mongodb. To access this feature `git pull origin in-memory`.
 
-## CI/CD
+### CI/CD
 This branch also was integrated with **[Circle Ci](https://circleci.com/)** to run test, build and deploy on **[Firebase](https://firebase.google.com)** on every push or merge. The changes of this branch will be displayed [here](https://musala-coding-task.firebaseapp.com)
