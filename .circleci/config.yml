@@ -29,3 +29,58 @@ jobs:
             - node_modules
             - package.json
           key: v1-dist-build-{{ .Environment.CIRCLE_BRANCH }}-{{ .Environment.CIRCLE_SHA1 }}
+  build:
+    docker:
+      # specify the version you desire here
+      - image: circleci/node:7.10-browsers
+    working_directory: ~/repo
+    steps:
+      - checkout
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+            - v1-dist-build-{{ .Environment.CIRCLE_BRANCH }}-{{ .Environment.CIRCLE_SHA1 }}
+      - run:
+          name: Build
+          command: npm run build
+      - save_cache:
+          paths:
+            - dist
+            - package.json
+            - firebase.json
+            - .firebaserc
+          key: v1-dist-deploy-{{ .Environment.CIRCLE_BRANCH }}-{{ .Environment.CIRCLE_SHA1 }}
+  deploy:
+    docker:
+      # specify the version you desire here
+      - image: circleci/node:7.10-browsers
+    working_directory: ~/repo
+    steps:
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+            - v1-dist-deploy-{{ .Environment.CIRCLE_BRANCH }}-{{ .Environment.CIRCLE_SHA1 }}
+      - run:
+          name: Install Firebase
+          command: npm install --save-dev firebase-tools
+      - run:
+          name: Deploy to Firebase
+          command: npm run firebase-deploy -- --token=$FIREBASE_TOKEN
+workflows:
+  version: 2
+  -deploy:
+    jobs:
+      - test
+      - build:
+          requires:
+            - test
+          filters:
+            branches:
+              only: in-memory
+      - deploy:
+          requires:
+            - build
+          filters:
+            branches:
+              only: in-memory
+
