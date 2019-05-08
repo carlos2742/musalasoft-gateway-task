@@ -68,7 +68,7 @@ jobs:
           command: npm run firebase-deploy -- --token=$FIREBASE_TOKEN
 workflows:
   version: 2
-  -deploy:
+  -pipeline:
     jobs:
       - test
       - build:
