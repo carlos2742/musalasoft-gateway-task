@@ -7,6 +7,10 @@ This project was generated with Angular 5 and contain all the UI to manage Gatew
 - To start clone or download the app.
 - Run `npm install`.
 
+## Requirements
+
+This app require **[gateway-api](https://github.com/carlos2742/gateway-api)** 
+
 ## Development server
 
 Run `npm start` for a dev server. Navigate to `http://localhost:4200/`.
@@ -32,4 +36,4 @@ export const environment = {
 The branch **in-memory** was modified to use data in memory instead of mongodb. To access this feature `git pull origin in-memory`.
 
 ### CI/CD
-This branch also was integrated with **[Circle Ci](https://circleci.com/)** to run test, build and deploy on **[Firebase](https://firebase.google.com)** on every push or merge. The changes of this branch will be displayed [here](https://musala-coding-task.firebaseapp.com)
+The app was integrated with **[Circle Ci](https://circleci.com/)** to run test automatically on every push.
