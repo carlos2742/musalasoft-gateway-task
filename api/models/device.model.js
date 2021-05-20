@@ -8,10 +8,13 @@ const deviceSchema = new mongoose.Schema({
     type: String
   },
   created: {
-    type: Date
+    type: Date,
+    default: Date.now(),
   },
   status: {
-    type: String
+    type: Number,
+    min: 0,
+    max: 1
   },
   gateway: {type: mongoose.Schema.Types.ObjectId, ref: 'Gateway'}
 });

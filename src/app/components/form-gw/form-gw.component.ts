@@ -89,7 +89,7 @@ export class FormGwComponent implements OnInit {
         const message = response['status'] === 'success' ? 'Gateway was added successfully.' : response['message'];
         this.closeModal(FORM_ACTIONS.ADD, response['status'], message);
       },
-      error => {
+      ({error}) => {
         this.closeModal(FORM_ACTIONS.ADD, error['status'], error['message']);
       }
     );

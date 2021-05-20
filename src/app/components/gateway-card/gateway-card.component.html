@@ -16,7 +16,7 @@
   <h5 class="mb-0">
     Devices
   </h5>
-  <button class="btn btn-success ml-2" title="Add Device" (click)="openAdd(content)" *ngIf="devices && devices.length < 10"><i class="fas fa-plus"></i></button>
+  <button class="btn btn-success ml-2" title="Add DeviceModel" (click)="openAdd(content)" *ngIf="devices && devices.length < 10"><i class="fas fa-plus"></i></button>
 </div>
 <div class="text-center pb-5">
   <div *ngIf="devices && devices.length > 0 ; else emptyBlock" class="row mr-0 ml-0 w-100 overflow-auto">
@@ -35,10 +35,10 @@
         <td>{{device.uid}}</td>
         <td>{{device.vendor}}</td>
         <td>{{device.created | date: 'dd/MM/yyyy'}}</td>
-        <td>{{device.status}}</td>
+        <td>{{device.status == 0 ? 'offline' : 'online'}}</td>
         <td>
-          <button class="btn btn-primary" title="Edit Device:{{device.uid}}" (click)="openEdit(content, device._id)"><i class="fas fa-edit"></i></button>
-          <button class="btn btn-danger" title="Remove Device: {{device.uid}}" (click)="openRemove(content2, device._id)"><i class="fas fa-trash"></i></button>
+          <button class="btn btn-primary" title="Edit DeviceModel:{{device.uid}}" (click)="openEdit(content, device._id)"><i class="fas fa-edit"></i></button>
+          <button class="btn btn-danger" title="Remove DeviceModel: {{device.uid}}" (click)="openRemove(content2, device._id)"><i class="fas fa-trash"></i></button>
         </td>
       </tr>
       </tbody>
@@ -58,7 +58,7 @@
 
 <ng-template #content2 let-r>
   <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">Remove Device</h4>
+    <h4 class="modal-title" id="modal-basic-title">Remove DeviceModel</h4>
     <button type="button" class="close" aria-label="Close" (click)="modalRef.dismiss('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>

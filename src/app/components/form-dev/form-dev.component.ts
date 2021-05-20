@@ -6,8 +6,8 @@ import {NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
 import {GatewaysService} from '../../services/gateways.service';
 
 export enum DEVICES_STATUS {
-  ONLINE = 'online',
-  OFFLINE = 'offline'
+  OFFLINE,
+  ONLINE
 }
 
 @Component({
@@ -68,7 +68,6 @@ export class FormDevComponent implements OnInit {
     if (this.action === FORM_ACTIONS.EDIT) {
       this.editDevice(this.device['_id'], data);
     } else {
-      data['created'] = new Date();
       this.addDevice(this.gwId, data);
     }
   }
@@ -77,7 +76,7 @@ export class FormDevComponent implements OnInit {
     this.customform = this._formBuilder.group({
       'uid': new FormControl(uid, [Validators.required, Validators.pattern('^\\d+$')]),
       'vendor': new FormControl(vendor, [Validators.required]),
-      'status': new FormControl(status),
+      'status': new FormControl(status.toString()),
     });
   }
 
@@ -99,7 +98,7 @@ export class FormDevComponent implements OnInit {
         const message = response['status'] === 'success' ? 'Device was added successfully.' : response['message'];
         this.closeModal(FORM_ACTIONS.ADD, response['status'], message);
       },
-      error => {
+      ({error}) => {
         this.closeModal(FORM_ACTIONS.ADD, error['status'], error['message']);
       }
     );

@@ -1,13 +1,29 @@
 import mongoose from 'mongoose';
-import Gateway from "./gateways.js";
-import Device from "./device.js";
+import Gateway from "./gateway.model.js";
+import DeviceModel from "./device.model.js";
+import seed from "./seed.js";
 
-const connectDb = () => {
-    return mongoose.connect(process.env.DATABASE_URL,{ useCreateIndex: true, useNewUrlParser: true });
+const connect = (uri) => {
+  return mongoose.connect(uri,{ useCreateIndex: true, useNewUrlParser: true, useUnifiedTopology: true });
 };
 
-const models = { Gateway, Device };
+const disconnect = () =>{
+  return mongoose.disconnect();
+};
 
-export { connectDb };
+const populate = () =>{
+  return seed();
+};
 
-export default models;
+const clean = () =>{
+  return Promise.all([
+    Gateway.deleteMany({}),
+    DeviceModel.deleteMany({})]);
+};
+
+export default {
+  models: { Gateway, Device: DeviceModel },
+  db:{ connect, disconnect, populate, clean}
+};
+
+
