@@ -1,10 +1,10 @@
 import mongoose from 'mongoose';
-import Gateway from "./gateways.js";
-import Device from "./device.js";
+import Gateway from "./gateway.model.js";
+import DeviceModel from "./device.model.js";
 import seed from "./seed.js";
 
 const connect = (uri) => {
-  return mongoose.connect(uri,{ useCreateIndex: true, useNewUrlParser: true });
+  return mongoose.connect(uri,{ useCreateIndex: true, useNewUrlParser: true, useUnifiedTopology: true });
 };
 
 const disconnect = () =>{
@@ -18,14 +18,12 @@ const populate = () =>{
 const clean = () =>{
   return Promise.all([
     Gateway.deleteMany({}),
-    Device.deleteMany({})]);
+    DeviceModel.deleteMany({})]);
 };
 
-const models = { Gateway, Device };
-
-const schema = {
-  models,
+export default {
+  models: { Gateway, Device: DeviceModel },
   db:{ connect, disconnect, populate, clean}
 };
 
-export default schema;
+

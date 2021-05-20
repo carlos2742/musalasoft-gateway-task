@@ -10,9 +10,9 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "server:start": "node server.js",
-    "server:test": "jest api/tests",
-    "server:test-watch": "jest --watch",
-    "app": "yarn build & yarn run server:start"
+    "server:test": "jest api/tests --runInBand",
+    "server:test-watch": "jest api/tests --watch",
+    "app": "yarn build && yarn run server:start"
   },
   "private": true,
   "dependencies": {

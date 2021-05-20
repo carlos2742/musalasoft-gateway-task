@@ -79,11 +79,11 @@ export class GatewayCardComponent implements OnInit {
     this._device.remove(this.dvId).subscribe(
       response => {
         this.dvId = 0;
-        const message = response['status'] === 'success' ? 'Device removed successfully' : response['message'];
+        const message = response['status'] === 'success' ? 'DeviceModel removed successfully' : response['message'];
         this.modalRef.close({action: FORM_ACTIONS.REMOVE, message: message, status: response['status']});
       },
       error => {
-        this.modalRef.close({action: FORM_ACTIONS.REMOVE, message: 'Device can\'t be removed', status: 'danger'});
+        this.modalRef.close({action: FORM_ACTIONS.REMOVE, message: 'DeviceModel can\'t be removed', status: 'danger'});
       }
     );
   }

@@ -96,7 +96,7 @@ export class FormDevComponent implements OnInit {
   private addDevice(gatewayId, data) {
     this._gateway.addDevice(gatewayId, data).subscribe(
       response => {
-        const message = response['status'] === 'success' ? 'Device was added successfully.' : response['message'];
+        const message = response['status'] === 'success' ? 'DeviceModel was added successfully.' : response['message'];
         this.closeModal(FORM_ACTIONS.ADD, response['status'], message);
       },
       error => {
