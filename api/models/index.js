@@ -4,7 +4,7 @@ import DeviceModel from "./device.model.js";
 import seed from "./seed.js";
 
 const connect = (uri) => {
-  return mongoose.connect(uri,{ useCreateIndex: true, useNewUrlParser: true, useUnifiedTopology: true });
+  return mongoose.connect(uri,{ poolSize:10, useCreateIndex: true, useNewUrlParser: true, useUnifiedTopology: true });
 };
 
 const disconnect = () =>{

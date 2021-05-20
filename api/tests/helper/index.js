@@ -68,6 +68,6 @@ export default {
     uid: '45',
     vendor: 'Huawei',
     created: new Date(),
-    status: 'online'
+    status: 1
   }
 };
