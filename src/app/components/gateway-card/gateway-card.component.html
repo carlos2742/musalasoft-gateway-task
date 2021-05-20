@@ -35,7 +35,7 @@
         <td>{{device.uid}}</td>
         <td>{{device.vendor}}</td>
         <td>{{device.created | date: 'dd/MM/yyyy'}}</td>
-        <td>{{device.status}}</td>
+        <td>{{device.status == 0 ? 'offline' : 'online'}}</td>
         <td>
           <button class="btn btn-primary" title="Edit DeviceModel:{{device.uid}}" (click)="openEdit(content, device._id)"><i class="fas fa-edit"></i></button>
           <button class="btn btn-danger" title="Remove DeviceModel: {{device.uid}}" (click)="openRemove(content2, device._id)"><i class="fas fa-trash"></i></button>

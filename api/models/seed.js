@@ -16,7 +16,7 @@ const seed = async() => {
     uid: 1,
     vendor: 'Huawei',
     created: new Date(),
-    status: 'online',
+    status: 1,
     gateway: gateway1.id,
   });
 
@@ -24,7 +24,7 @@ const seed = async() => {
     uid: 2,
     vendor: 'Cisco',
     created: new Date(),
-    status: 'offline',
+    status: 0,
     gateway: gateway1.id,
   });
 
@@ -33,7 +33,7 @@ const seed = async() => {
     uid: 3,
     vendor: 'Cisco',
     created: new Date(),
-    status: 'online',
+    status: 1,
     gateway: gateway2.id,
   });
 

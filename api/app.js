@@ -36,7 +36,7 @@ app.use((req, res, next)=>{
 //   res.render('error');
 // });
 
-export const initialize = (callback, resetDatabase = false) =>{
+export const initialize = (callback, resetDatabase = true) =>{
   schema.db.connect(process.env.DATABASE_URL).then(async () => {
     if(resetDatabase){
       await schema.db.clean();
