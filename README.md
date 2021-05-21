@@ -14,7 +14,7 @@ This web app contain a **REST service** and **UI** to manage gateways - devices.
 - To start clone or download the app.
 - Run `yarn install`.
 
-## Exectue the app in dev
+## Execute the app in dev
 - Run `yarn start:server`
 - Run `yarn start:client` 
 - Navigate to `http://localhost:4200/`.
