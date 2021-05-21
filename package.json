@@ -4,16 +4,16 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --host 0.0.0.0 -env=dev",
+    "start": "yarn build && yarn start:server",
     "build": "ng build --prod ",
-    "test": "ng test -sm=false",
+    "test": "yarn test:client && yarn test:server",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "server:start": "node server.js",
-    "server:test": "jest api/tests --runInBand",
-    "server:test-watch": "jest api/tests --watch",
-    "app": "yarn build && yarn run server:start",
-    "app:test": "yarn test && yarn run server:test"
+    "start:client": "ng serve --host 0.0.0.0 -env=dev",
+    "start:server": "node server.js",
+    "test:client": "ng test -sm=false",
+    "test:server": "jest api/tests --runInBand",
+    "test-watch:server": "jest api/tests --watch"
   },
   "private": true,
   "dependencies": {
