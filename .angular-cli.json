@@ -50,7 +50,7 @@
   ],
   "test": {
     "karma": {
-      "config": "./karma.conf.js"
+      "config": "./karma.conf.cjs"
     }
   },
   "defaults": {
