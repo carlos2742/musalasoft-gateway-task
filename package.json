@@ -12,7 +12,8 @@
     "server:start": "node server.js",
     "server:test": "jest api/tests --runInBand",
     "server:test-watch": "jest api/tests --watch",
-    "app": "yarn build && yarn run server:start"
+    "app": "yarn build && yarn run server:start",
+    "app:test": "yarn test && yarn run server:test"
   },
   "private": true,
   "dependencies": {

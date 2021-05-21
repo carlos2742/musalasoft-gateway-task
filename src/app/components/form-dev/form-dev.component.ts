@@ -81,7 +81,7 @@ export class FormDevComponent implements OnInit {
   }
 
   private editDevice(id, data) {
-    this._device.edit(id, data).subscribe(
+    this._device.edit(id, data).pipe().subscribe(
       response => {
         const message = response['status'] === 'success' ? `Device was updated.` : response['message'];
         this.closeModal(FORM_ACTIONS.EDIT, response['status'], message);
